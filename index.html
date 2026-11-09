@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO Analyzer Pro - Проверка оптимизации сайтов</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>SEO Analyzer Pro — проверка страницы</title>
+    <script src="theme-init.js"></script>
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <script src="vendor/chart/chart.umd.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
 </head>
@@ -17,10 +15,10 @@
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-search"></i> SEO Analyzer Pro</h1>
-                <p class="tagline">Полный анализ оптимизации сайтов: скорость, SEO, безопасность</p>
+                <p class="tagline">Одна страница: скорость HTML, поиск и техника</p>
             </div>
             <div class="theme-toggle">
-                <button id="themeToggle" class="btn-icon" aria-label="Переключить тему">
+                <button id="themeToggle" class="btn-icon" type="button" aria-label="Переключить тему">
                     <i class="fas fa-moon"></i>
                 </button>
             </div>
@@ -30,10 +28,10 @@
             <section class="input-section card">
                 <div class="input-container">
                     <div class="input-group">
-                        <label for="urlInput"><i class="fas fa-link"></i> Введите URL сайта для анализа</label>
+                        <label for="urlInput"><i class="fas fa-link"></i> Адрес страницы</label>
                         <div class="input-with-button">
-                            <input type="url" id="urlInput" placeholder="https://example.com" required>
-                            <button id="analyzeBtn" class="btn-primary">
+                            <input type="text" id="urlInput" inputmode="url" placeholder="https://example.com" autocomplete="url">
+                            <button id="analyzeBtn" class="btn-primary" type="button">
                                 <i class="fas fa-play"></i> Проверить
                             </button>
                         </div>
@@ -44,7 +42,7 @@
                             </label>
                             <label class="checkbox">
                                 <input type="checkbox" id="detailedReport" checked>
-                                <span>Подробный отчет</span>
+                                <span>Пояснения к проверкам</span>
                             </label>
                         </div>
                     </div>
@@ -52,7 +50,7 @@
                         <h3><i class="fas fa-history"></i> История проверок</h3>
                         <div id="historyList" class="history-list">
                         </div>
-                        <button id="clearHistoryBtn" class="btn-secondary btn-small">
+                        <button id="clearHistoryBtn" class="btn-secondary btn-small" type="button">
                             <i class="fas fa-trash"></i> Очистить историю
                         </button>
                     </div>
@@ -60,13 +58,13 @@
             </section>
 
             <section id="progressSection" class="progress-section card hidden">
-                <h3><i class="fas fa-spinner fa-spin"></i> Анализ сайта</h3>
+                <h3><i class="fas fa-spinner fa-spin"></i> Проверка страницы</h3>
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div id="progressFill" class="progress-fill"></div>
                     </div>
                     <div class="progress-text">
-                        <span id="progressStatus">Инициализация анализа...</span>
+                        <span id="progressStatus">Готовим проверку…</span>
                         <span id="progressPercent">0%</span>
                     </div>
                 </div>
@@ -77,29 +75,21 @@
                     </div>
                     <div class="progress-item">
                         <span class="progress-step" data-step="2">2</span>
-                        <span>Анализ скорости</span>
-                    </div>
-                    <div class="progress-item">
-                        <span class="progress-step" data-step="3">3</span>
-                        <span>SEO проверка</span>
-                    </div>
-                    <div class="progress-item">
-                        <span class="progress-step" data-step="4">4</span>
-                        <span>Технический анализ</span>
+                        <span>Разбор разметки</span>
                     </div>
                 </div>
             </section>
 
             <section id="resultsSection" class="results-section hidden">
                 <div class="results-header">
-                    <h2><i class="fas fa-chart-bar"></i> Результаты анализа</h2>
+                    <h2><i class="fas fa-chart-bar"></i> Результаты</h2>
                     <div class="action-buttons">
-						<button id="downloadPDFBtn" class="btn-primary">
-							<i class="fas fa-file-pdf"></i> Скачать PDF отчет
-						</button>
-						<button id="exportJSONBtn" class="btn-secondary">
-							<i class="fas fa-file-code"></i> Экспорт JSON
-						</button>
+                        <button id="downloadPDFBtn" class="btn-primary" type="button">
+                            <i class="fas fa-file-pdf"></i> Скачать PDF
+                        </button>
+                        <button id="exportJSONBtn" class="btn-secondary" type="button">
+                            <i class="fas fa-file-code"></i> Скачать JSON
+                        </button>
                     </div>
                 </div>
 
@@ -116,15 +106,15 @@
                         <div class="score-summary">
                             <div class="score-item">
                                 <span class="score-label">Скорость:</span>
-                                <span id="speedScore" class="score-value">0/10</span>
+                                <span id="speedScore" class="score-value">0/13</span>
                             </div>
                             <div class="score-item">
                                 <span class="score-label">SEO:</span>
-                                <span id="seoScore" class="score-value">0/12</span>
+                                <span id="seoScore" class="score-value">0/14</span>
                             </div>
                             <div class="score-item">
-                                <span class="score-label">Техническая:</span>
-                                <span id="techScore" class="score-value">0/10</span>
+                                <span class="score-label">Техника:</span>
+                                <span id="techScore" class="score-value">0/12</span>
                             </div>
                         </div>
                     </div>
@@ -134,19 +124,20 @@
                         <div class="chart-container">
                             <canvas id="resourcesChart"></canvas>
                         </div>
+                        <div id="resourceSummary" class="resource-summary"></div>
                     </div>
 
                     <div class="details-card card">
-                        <h3>Детали анализа</h3>
+                        <h3>Проверки</h3>
                         <div class="details-tabs">
-                            <button class="tab-btn active" data-tab="speed">
-                                <i class="fas fa-tachometer-alt"></i> Скорость (<span id="speedCount">0</span>)
+                            <button class="tab-btn active" data-tab="speed" type="button">
+                                Скорость (<span id="speedCount">0</span>)
                             </button>
-                            <button class="tab-btn" data-tab="seo">
-                                <i class="fas fa-search"></i> SEO (<span id="seoCount">0</span>)
+                            <button class="tab-btn" data-tab="seo" type="button">
+                                SEO (<span id="seoCount">0</span>)
                             </button>
-                            <button class="tab-btn" data-tab="tech">
-                                <i class="fas fa-cogs"></i> Техническая (<span id="techCount">0</span>)
+                            <button class="tab-btn" data-tab="tech" type="button">
+                                Техника (<span id="techCount">0</span>)
                             </button>
                         </div>
                         <div class="tab-content">
@@ -166,12 +157,12 @@
                     </div>
 
                     <div class="recommendations-card card">
-                        <h3><i class="fas fa-lightbulb"></i> Рекомендации</h3>
+                        <h3>Рекомендации</h3>
                         <div class="priority-filter">
-                            <button class="priority-btn active" data-priority="all">Все</button>
-                            <button class="priority-btn" data-priority="high">Высокий</button>
-                            <button class="priority-btn" data-priority="medium">Средний</button>
-                            <button class="priority-btn" data-priority="low">Низкий</button>
+                            <button class="priority-btn active" data-priority="all" type="button">Все</button>
+                            <button class="priority-btn" data-priority="high" type="button">Высокий</button>
+                            <button class="priority-btn" data-priority="medium" type="button">Средний</button>
+                            <button class="priority-btn" data-priority="low" type="button">Низкий</button>
                         </div>
                         <div class="recommendations-list" id="recommendationsList">
                         </div>
@@ -179,59 +170,58 @@
                 </div>
 
                 <div class="url-display card">
-                    <h4>Проанализированный сайт:</h4>
+                    <h4>Проверенная страница</h4>
                     <p id="analyzedUrl" class="url-text"></p>
                     <div class="url-info">
                         <span id="analysisDate"></span>
                         <span id="analysisTime"></span>
                     </div>
+                    <p id="renderNote" class="render-note"></p>
                 </div>
             </section>
 
             <section class="info-section card">
-                <h3><i class="fas fa-info-circle"></i> О сервисе</h3>
-                <p>SEO Analyzer Pro — это инструмент для комплексной проверки оптимизации сайтов. Сервис анализирует более 30 параметров, включая скорость загрузки, SEO-оптимизацию и технические аспекты. Все расчеты выполняются локально в вашем браузере, данные не сохраняются на серверах.</p>
+                <h3>О сервисе</h3>
+                <p>Проверяется одна страница: как быстро приходит HTML, что увидит поиск и в каком техническом состоянии ответ. Запрос идёт через этот сервер. Если установлен Chromium, учитывается разметка после JavaScript. История остаётся только в браузере.</p>
                 <div class="features">
                     <div class="feature">
                         <i class="fas fa-bolt"></i>
                         <h4>Скорость</h4>
-                        <p>10 проверок: TTFB, Core Web Vitals, сжатие, кеширование</p>
+                        <p>13 проверок: TTFB, время и вес HTML, редиректы, чужие домены, кеш, сжатие и размеры картинок</p>
                     </div>
                     <div class="feature">
                         <i class="fas fa-search"></i>
                         <h4>SEO</h4>
-                        <p>12 проверок: мета-теги, микроразметка, структура, мобильность</p>
+                        <p>14 проверок: title, description, заголовки, ссылки, robots, sitemap, индексация и разметка</p>
                     </div>
                     <div class="feature">
                         <i class="fas fa-shield-alt"></i>
-                        <h4>Техническая</h4>
-                        <p>10 проверок: безопасность, заголовки, ошибки, современные технологии</p>
+                        <h4>Техника</h4>
+                        <p>12 проверок: HTTPS, TLS, HSTS, cookie, заголовки безопасности, кодировка и доступность</p>
                     </div>
                 </div>
             </section>
         </main>
 
         <footer class="footer">
-            <p>SEO Analyzer Pro &copy; 2023 | Создано с <i class="fas fa-heart"></i> для веб-разработчиков</p>
+            <p>SEO Analyzer Pro &copy; <span id="year"></span></p>
             <p class="footer-links">
-                <a href="#" id="privacyLink">Конфиденциальность</a> | 
-                <a href="#" id="contactLink">Контакты</a> | 
-                <a href="#" id="apiLink">API</a>
+                <a href="#" id="privacyLink">Конфиденциальность</a>
             </p>
         </footer>
     </div>
 
     <div id="notification" class="notification hidden"></div>
+    <div id="infoModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button id="modalClose" class="btn-icon" type="button" aria-label="Закрыть">&times;</button>
+            </div>
+            <p id="modalBody"></p>
+        </div>
+    </div>
 
-    <div id="pdfContainer" class="pdf-container hidden"></div>
-
-    <script src="utils.js"></script>
-    <script src="modules/checks.js"></script>
-    <script src="modules/analyzer.js"></script>
-    <script src="modules/charts.js"></script>
-    <script src="modules/storage.js"></script>
-    <script src="modules/ui.js"></script>
-    <script src="modules/pdf-generator.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
