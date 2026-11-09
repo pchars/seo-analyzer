@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /service-worker.js
 
-Sitemap: https://seoanalyzer.example.com/sitemap.xml
+Disallow: /api/
